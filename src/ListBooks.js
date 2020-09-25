@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from "prop-types"
+import { Link } from "react-router-dom";
 import Bookshelf from "./Bookshelf"
 
 const SHELVES = {
@@ -12,8 +13,7 @@ class ListBooks extends React.Component {
 
   static propTypes = {
     books: PropTypes.array.isRequired,
-    onShelfChanged: PropTypes.func.isRequired,
-    onOpenSearch: PropTypes.func.isRequired
+    onShelfChanged: PropTypes.func.isRequired
   }
 
   groupBooksByShelf = (books) => (
@@ -25,7 +25,7 @@ class ListBooks extends React.Component {
 
   render() {
 
-    const { books, onShelfChanged, onOpenSearch } = this.props;
+    const { books, onShelfChanged } = this.props;
 
     const groupedBooks = this.groupBooksByShelf(books)
 
@@ -46,9 +46,9 @@ class ListBooks extends React.Component {
             ))}
           </div>
         </div>
-        <div className="open-search">
-          <button onClick={() => onOpenSearch()}>Add a book</button>
-        </div>
+        <Link className="open-search" to="/search">
+          <button>Add a book</button>
+        </Link>
       </div>
     );
   }
