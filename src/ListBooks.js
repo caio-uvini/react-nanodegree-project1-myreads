@@ -15,6 +15,10 @@ class ListBooks extends React.Component {
   }
 
   componentDidMount() {
+    this.refreshBooks();
+  }
+
+  refreshBooks = () => {
     BooksAPI.getAll().then(books => {
       const groupedBooks = this.groupBooksByShelf(books);
       this.setState(() => ({
@@ -42,7 +46,12 @@ class ListBooks extends React.Component {
         <div className="list-books-content">
           <div>
             {shelves.map(shelf => (
-              <Bookshelf key={shelf.id} title={shelf.title} books={this.state.books[shelf.id]}/>
+              <Bookshelf
+                key={shelf.id}
+                title={shelf.title}
+                books={this.state.books[shelf.id]}
+                onShelfChanged={this.refreshBooks}
+              />
             ))}
           </div>
         </div>

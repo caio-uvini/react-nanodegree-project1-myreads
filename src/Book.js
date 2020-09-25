@@ -5,12 +5,13 @@ import BookshelfChanger from "./BookshelfChanger";
 class Book extends React.Component {
 
   static propTypes = {
-    book: PropTypes.object.isRequired
+    book: PropTypes.object.isRequired,
+    onShelfChanged: PropTypes.func.isRequired
   }
 
   render() {
 
-    const { book } = this.props;
+    const { book, onShelfChanged } = this.props;
 
     return (
       <li>
@@ -21,7 +22,7 @@ class Book extends React.Component {
               height: 193,
               backgroundImage: `url(${book.imageLinks.thumbnail})`
             }}/>
-            <BookshelfChanger book={book}/>
+            <BookshelfChanger book={book} onShelfChanged={onShelfChanged}/>
           </div>
           <div className="book-title">{book.title}</div>
           <div className="book-authors">{book.authors.join(', ')}</div>

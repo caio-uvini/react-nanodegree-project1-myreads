@@ -1,14 +1,18 @@
 import React from "react"
 import PropTypes from "prop-types"
+import * as BooksAPI from "./BooksAPI";
 
 class BookshelfChanger extends React.Component {
 
   static propTypes = {
-    book: PropTypes.object.isRequired
+    book: PropTypes.object.isRequired,
+    onShelfChanged: PropTypes.func.isRequired
   }
 
-  // TODO
-  handleOnChange = (event) => {}
+  handleOnChange = (event) => {
+    BooksAPI.update(this.props.book, event.target.value)
+      .then(() => this.props.onShelfChanged());
+  }
 
   render() {
 
