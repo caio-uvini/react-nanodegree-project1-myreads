@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import * as BooksAPI from "./BooksAPI";
 
 class BookshelfChanger extends React.Component {
 
@@ -9,18 +8,28 @@ class BookshelfChanger extends React.Component {
     onShelfChanged: PropTypes.func.isRequired
   }
 
+  state = {
+    shelf: ""
+  }
+
   handleOnChange = (event) => {
-    BooksAPI.update(this.props.book, event.target.value)
-      .then(() => this.props.onShelfChanged());
+
+    const newShelf = event.target.value;
+
+    this.updateShelf(newShelf);
+    this.props.onShelfChanged(this.props.book, newShelf);
+  }
+
+  updateShelf = (newValue) => this.setState(() => ({ shelf: newValue }))
+
+  componentDidMount() {
+    this.updateShelf(this.props.book.shelf);
   }
 
   render() {
-
-    const { book } = this.props;
-
     return (
       <div className="book-shelf-changer">
-        <select value={book.shelf} onChange={this.handleOnChange}>
+        <select value={this.state.shelf} onChange={this.handleOnChange}>
           <option value="move" disabled>Move to...</option>
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>

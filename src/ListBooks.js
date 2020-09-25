@@ -1,30 +1,19 @@
 import React from 'react'
 import PropTypes from "prop-types"
-import Bookshelf from "./Bookshelf";
-import * as BooksAPI from "./BooksAPI";
+import Bookshelf from "./Bookshelf"
+
+const SHELVES = {
+  currentlyReading: "Currently Reading",
+  wantToRead: "Want to Read",
+  read: "Read"
+}
 
 class ListBooks extends React.Component {
 
   static propTypes = {
-    shelves: PropTypes.array.isRequired,
+    books: PropTypes.array.isRequired,
+    onShelfChanged: PropTypes.func.isRequired,
     onOpenSearch: PropTypes.func.isRequired
-  }
-
-  state = {
-    books: {}
-  }
-
-  componentDidMount() {
-    this.refreshBooks();
-  }
-
-  refreshBooks = () => {
-    BooksAPI.getAll().then(books => {
-      const groupedBooks = this.groupBooksByShelf(books);
-      this.setState(() => ({
-        books: groupedBooks
-      }))
-    })
   }
 
   groupBooksByShelf = (books) => (
@@ -36,7 +25,9 @@ class ListBooks extends React.Component {
 
   render() {
 
-    const { shelves, onOpenSearch } = this.props;
+    const { books, onShelfChanged, onOpenSearch } = this.props;
+
+    const groupedBooks = this.groupBooksByShelf(books)
 
     return (
       <div className="list-books">
@@ -45,12 +36,12 @@ class ListBooks extends React.Component {
         </div>
         <div className="list-books-content">
           <div>
-            {shelves.map(shelf => (
+            {Object.entries(SHELVES).map(([shelfId, shelfTitle]) => (
               <Bookshelf
-                key={shelf.id}
-                title={shelf.title}
-                books={this.state.books[shelf.id]}
-                onShelfChanged={this.refreshBooks}
+                key={shelfId}
+                title={shelfTitle}
+                books={groupedBooks[shelfId]}
+                onShelfChanged={onShelfChanged}
               />
             ))}
           </div>

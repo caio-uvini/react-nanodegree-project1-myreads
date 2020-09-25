@@ -1,22 +1,8 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
 import ListBooks from "./ListBooks";
+import SearchBooks from "./SearchBooks";
+import * as BooksAPI from "./BooksAPI";
 import './App.css'
-
-const SHELVES = [
-  {
-    id: "currentlyReading",
-    title: "Currently Reading"
-  },
-  {
-    id: "wantToRead",
-    title: "Want to Read"
-  },
-  {
-    id: "read",
-    title: "Read"
-  }
-]
 
 class BooksApp extends React.Component {
   state = {
@@ -26,35 +12,47 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false
+    showSearchPage: false,
+    books: []
+  }
+
+  replaceBook = (books, updatedBook) => (
+    [...books.filter(book => book.id !== updatedBook.id), updatedBook]
+  )
+
+  onShelfChanged = (book, shelf) => {
+    BooksAPI.update(book, shelf).then(() => {
+      this.setState(prevState => ({
+        books: this.replaceBook(prevState.books, { ...book, shelf: shelf })
+      }))
+    });
+  }
+
+  refreshBooks = () => {
+    BooksAPI.getAll().then(books => this.setState(() => ({
+      books: books
+    })))
+  }
+
+  componentDidMount() {
+    this.refreshBooks();
   }
 
   render() {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
-              <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author"/>
-
-              </div>
-            </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
+          <SearchBooks
+            booksInShelves={this.state.books}
+            onShelfChanged={this.onShelfChanged}
+            onCloseSearch={() => this.setState({ showSearchPage: false })}
+          />
         ) : (
-          <ListBooks shelves={SHELVES} onOpenSearch={() => this.setState({ showSearchPage: true })}/>
+          <ListBooks
+            books={this.state.books}
+            onShelfChanged={this.onShelfChanged}
+            onOpenSearch={() => this.setState({ showSearchPage: true })}
+          />
         )}
       </div>
     )
