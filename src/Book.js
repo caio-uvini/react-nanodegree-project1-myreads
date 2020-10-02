@@ -1,8 +1,8 @@
-import React from "react"
+import React, { Component } from "react"
 import PropTypes from "prop-types"
 import BookshelfChanger from "./BookshelfChanger";
 
-class Book extends React.Component {
+class Book extends Component {
 
   static propTypes = {
     book: PropTypes.object.isRequired,

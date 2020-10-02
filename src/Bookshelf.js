@@ -1,8 +1,8 @@
-import React from "react"
+import React, { Component } from "react"
 import PropTypes from "prop-types"
 import Book from "./Book";
 
-class Bookshelf extends React.Component {
+class Bookshelf extends Component {
 
   static propTypes = {
     title: PropTypes.string.isRequired,
