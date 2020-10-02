@@ -20,7 +20,7 @@ const ListBooks = (props) => {
 
   const { books, onShelfChanged } = props;
 
-  const groupedBooks = groupBooksByShelf(books)
+  const groupedBooks = groupBooksByShelf(books);
 
   return (
     <div className="list-books">

@@ -18,14 +18,14 @@ class BooksApp extends Component {
     BooksAPI.update(book, shelf).then(() => {
       this.setState(prevState => ({
         books: this.replaceBook(prevState.books, { ...book, shelf: shelf })
-      }))
+      }));
     });
   }
 
   refreshBooks = () => {
     BooksAPI.getAll().then(books => this.setState(() => ({
       books: books
-    })))
+    })));
   }
 
   componentDidMount() {

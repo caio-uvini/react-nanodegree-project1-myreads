@@ -34,13 +34,13 @@ class SearchBooks extends Component {
       this.setState(() => ({
         results: (!books || books.error) ? [] : books
       }))
-    })
+    });
   }
 
   withShelf = (booksInShelves, booksFromSearch) => (
     booksFromSearch.map(bookFromSearch => {
-      const inShelf = booksInShelves.find(bis => bis.id === bookFromSearch.id)
-      return { ...bookFromSearch, shelf: inShelf ? inShelf.shelf : "none" }
+      const inShelf = booksInShelves.find(bis => bis.id === bookFromSearch.id);
+      return { ...bookFromSearch, shelf: inShelf ? inShelf.shelf : "none" };
     })
   )
 
