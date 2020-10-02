@@ -1,12 +1,12 @@
-import React from 'react'
-import PropTypes from "prop-types"
-import { Link } from "react-router-dom";
-import Bookshelf from "./Bookshelf"
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import Bookshelf from './Bookshelf';
 
 const SHELVES = {
-  currentlyReading: "Currently Reading",
-  wantToRead: "Want to Read",
-  read: "Read"
+  currentlyReading: 'Currently Reading',
+  wantToRead: 'Want to Read',
+  read: 'Read'
 }
 
 const groupBooksByShelf = (books) => (

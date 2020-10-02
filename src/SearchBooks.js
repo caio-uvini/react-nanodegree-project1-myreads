@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types"
-import { Link } from "react-router-dom";
-import Book from "./Book"
-import * as BooksAPI from "./BooksAPI"
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import Book from './Book';
+import * as BooksAPI from './BooksAPI';
 
 class SearchBooks extends Component {
 
@@ -12,7 +12,7 @@ class SearchBooks extends Component {
   }
 
   state = {
-    terms: "",
+    terms: '',
     results: []
   }
 
@@ -22,7 +22,7 @@ class SearchBooks extends Component {
 
     if (!newTerms) {
       this.setState(() => ({
-        terms: "",
+        terms: '',
         results: []
       }));
       return;
@@ -40,7 +40,7 @@ class SearchBooks extends Component {
   withShelf = (booksInShelves, booksFromSearch) => (
     booksFromSearch.map(bookFromSearch => {
       const inShelf = booksInShelves.find(bis => bis.id === bookFromSearch.id);
-      return { ...bookFromSearch, shelf: inShelf ? inShelf.shelf : "none" };
+      return { ...bookFromSearch, shelf: inShelf ? inShelf.shelf : 'none' };
     })
   )
 
